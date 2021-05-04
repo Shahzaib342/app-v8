@@ -57,3 +57,9 @@ Route::get('/cont2', function (\App\Services\RedisEventPusher $eventPusher) {
     return $eventPusher->push();
 });
 
+/**
+ * Service container - Binding Primitives
+ */
+Route::get('/primitive', function (\App\Services\BindingPrimitives $primitive) {
+    return $primitive->index();
+});

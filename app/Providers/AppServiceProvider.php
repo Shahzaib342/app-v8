@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\BindingPrimitives;
 use App\Services\ContextualPusher;
 use App\Services\EventPusher;
 use App\Services\Foo;
@@ -40,6 +41,16 @@ class AppServiceProvider extends ServiceProvider
             ->give(function () {
                 return new ContextualPusher();
             });
+
+        //binding primitives - inject primitive value
+//        $this->app->when(BindingPremitives::class)
+//            ->needs('$var')
+//            ->give(2);
+
+        //binding primitives - inject container binding with tag
+        $this->app->when(BindingPrimitives::class)
+            ->needs('$var')
+            ->giveTagged('var');
     }
 
     /**
