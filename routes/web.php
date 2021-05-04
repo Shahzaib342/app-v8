@@ -22,12 +22,26 @@ use Illuminate\Support\Facades\Route;
  * Class Service
  */
 class Service
-{
-
-}
+{}
 
 Route::get('/', function (Service $service) {
     die(get_class($service));
 });
 
-// End
+/**
+ * Service container - simple and singleton binding
+ */
+Route::get('/foo', function (\App\Services\Foo $foo) {
+    return $foo->hello();
+});
+
+/**
+ * Service container - binding interface to implementation
+ */
+//use anonymous function
+//Route::get('/push', function (\App\Services\EventPusher $eventPusher) {
+//    return $eventPusher->push();
+//});
+//or using call to the controller
+Route::get('/push', [\App\Services\Pusher::class, 'index']);
+
