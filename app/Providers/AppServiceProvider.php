@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\ContextualPusher;
 use App\Services\EventPusher;
 use App\Services\Foo;
 use App\Services\RedisEventPusher;
@@ -26,6 +27,19 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(EventPusher::class, function () {
             return new RedisEventPusher();
         });
+
+        //contextual bindings
+        $this->app->when(RedisEventPusher::class)
+            ->needs(EventPusher::class)
+            ->give(function () {
+                return new RedisEventPusher();
+            });
+
+        $this->app->when(ContextualPusher::class)
+            ->needs(EventPusher::class)
+            ->give(function () {
+                return new ContextualPusher();
+            });
     }
 
     /**

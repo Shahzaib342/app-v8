@@ -6,7 +6,7 @@ class RedisEventPusher implements EventPusher
 
     public function push(): string
     {
-        return 'push';
+        return 'push from redis class';
     }
 
 }

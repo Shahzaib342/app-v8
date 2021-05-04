@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\RedisEventPusher;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,4 +45,15 @@ Route::get('/foo', function (\App\Services\Foo $foo) {
 //});
 //or using call to the controller
 Route::get('/push', [\App\Services\Pusher::class, 'index']);
+
+/**
+ * Service container - Contextual Binding
+ */
+Route::get('/cont', function (\App\Services\ContextualPusher $eventPusher) {
+    return $eventPusher->push();
+});
+
+Route::get('/cont2', function (\App\Services\RedisEventPusher $eventPusher) {
+    return $eventPusher->push();
+});
 
