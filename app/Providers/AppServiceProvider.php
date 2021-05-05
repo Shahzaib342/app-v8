@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\BindingPrimitives;
 use App\Services\ContextualPusher;
+use App\Services\Decorator;
 use App\Services\EventPusher;
 use App\Services\Foo;
 use App\Services\Messenger;
@@ -69,6 +70,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Messenger::class, function ($app) {
             return new SlackMessenger($app->tagged(Messenger::class));
         });
+
+        //extending already a resolved service
+//        $this->app->extend(TwillioMessenger::class, function ($service, $app) {
+//            return new Decorator($service);
+//        });
     }
 
     /**
