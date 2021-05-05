@@ -63,3 +63,13 @@ Route::get('/cont2', function (\App\Services\RedisEventPusher $eventPusher) {
 Route::get('/primitive', function (\App\Services\BindingPrimitives $primitive) {
     return $primitive->index();
 });
+
+/**
+ * Service container - tagging
+ */
+Route::get('/tagging', function () {
+    $messengers = app()->tagged(\App\Services\Messenger::class);
+    foreach ($messengers as $messenger) {
+        echo $messenger->sendMessage('$recipient', '$message');
+    }
+});

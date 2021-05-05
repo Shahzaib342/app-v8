@@ -6,7 +6,10 @@ use App\Services\BindingPrimitives;
 use App\Services\ContextualPusher;
 use App\Services\EventPusher;
 use App\Services\Foo;
+use App\Services\Messenger;
 use App\Services\RedisEventPusher;
+use App\Services\SlackMessenger;
+use App\Services\TwillioMessenger;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -51,6 +54,21 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(BindingPrimitives::class)
             ->needs('$var')
             ->giveTagged('var');
+
+        //service container - tagging
+        $this->app->bind(SlackMessenger::class, function () {
+            return new SlackMessenger();
+        });
+
+        $this->app->bind(TwillioMessenger::class, function () {
+            return new TwillioMessenger();
+        });
+
+        $this->app->tag([SlackMessenger::class, TwillioMessenger::class], Messenger::class);
+
+        $this->app->bind(Messenger::class, function ($app) {
+            return new SlackMessenger($app->tagged(Messenger::class));
+        });
     }
 
     /**
