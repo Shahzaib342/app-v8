@@ -25,9 +25,9 @@ use Illuminate\Support\Facades\Route;
 class Service
 {}
 
-Route::get('/', function (Service $service) {
-    die(get_class($service));
-});
+//Route::get('/', function (Service $service) {
+//    die(get_class($service));
+//});
 
 /**
  * Service container - simple and singleton binding
@@ -72,4 +72,13 @@ Route::get('/tagging', function () {
     foreach ($messengers as $messenger) {
         echo $messenger->sendMessage('$recipient', '$message');
     }
+});
+
+/**
+ * Service container - Resolving make and makewith
+ */
+Route::get('/', function () {
+    $app = app();
+    $service = $app->make(\App\Services\Resolve::class);
+    echo $service->hello();
 });
